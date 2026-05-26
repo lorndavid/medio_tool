@@ -1,0 +1,60 @@
+{
+  "welcome": "👋 Hi {{name}}!\n\nI'm *MediaFlow Bot* — your fast media assistant.\n\n*What I can do:*\n• 🎵 TikTok videos\n• 📸 Instagram Reels\n• 📘 Facebook public videos & Reels\n• ▶️ YouTube audio & metadata\n\n_Send me a link to begin._",
+  "help": "*How to use*\n\n1. Copy a link from TikTok / Instagram / Facebook / YouTube\n2. Paste it here\n3. I'll fetch what's available\n\nUse the menu below for more options.",
+  "menu": {
+    "settings": "⚙️ Settings",
+    "language": "🌐 Language",
+    "profile": "👤 Profile",
+    "history": "🗂 History",
+    "support": "💬 Support",
+    "premium": "💎 Premium",
+    "stats": "📊 Stats",
+    "about": "ℹ️ About",
+    "back": "🔙 Back"
+  },
+  "language": {
+    "prompt": "🌐 Choose your language:",
+    "saved": "✅ Language updated."
+  },
+  "profile": {
+    "title": "👤 *Your Profile*",
+    "name": "Name",
+    "language": "Language",
+    "downloads": "Downloads",
+    "joined": "Joined",
+    "tier": "Tier"
+  },
+  "settings": {
+    "title": "⚙️ *Settings*",
+    "preferHD": "Prefer HD",
+    "audioOnly": "Audio only (YouTube)",
+    "notify": "Notifications",
+    "on": "On",
+    "off": "Off"
+  },
+  "history": {
+    "title": "🗂 *Recent downloads*",
+    "empty": "_No downloads yet._"
+  },
+  "stats": {
+    "title": "📊 *Your stats*",
+    "downloads": "Total downloads",
+    "successRate": "Success rate"
+  },
+  "about": "ℹ️ *MediaFlow Bot*\n\nFast, multi-platform media assistant.\nVersion {{version}}.",
+  "premium": "💎 *Premium*\n\n• Faster queue priority\n• Larger files\n• More daily downloads\n\nContact support to upgrade.",
+  "support": "💬 *Support*\n\nNeed help? Tap the button below.",
+  "processing": "⏳ Processing...",
+  "queued": "📥 Queued. Position: {{pos}}",
+  "sending": "🚀 Sending...",
+  "success": "✅ Done.",
+  "errors": {
+    "invalidLink": "❌ I couldn't understand that link.",
+    "platformDisabled": "⚠️ This platform is temporarily disabled.",
+    "tooLarge": "⚠️ File is too large for Telegram.",
+    "rateLimit": "⏱ Too many requests. Slow down a moment.",
+    "banned": "🚫 You are not allowed to use this bot.",
+    "maintenance": "🛠 Maintenance in progress. Please try later.",
+    "generic": "❌ Something went wrong. Please try again."
+  }
+}

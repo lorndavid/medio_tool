@@ -1,0 +1,18 @@
+<div class="space-y-5 fade-in">
+  <h1 class="text-2xl font-semibold tracking-tight">Performance monitor</h1>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="kpi"><div class="kpi-label">Uptime</div><div class="kpi-value"><%= sys.uptime %>s</div></div>
+    <div class="kpi"><div class="kpi-label">RSS</div><div class="kpi-value"><%= sys.mem.rssMB %> MB</div></div>
+    <div class="kpi"><div class="kpi-label">Heap used</div><div class="kpi-value"><%= sys.mem.heapUsedMB %> MB</div></div>
+    <div class="kpi"><div class="kpi-label">Free RAM</div><div class="kpi-value"><%= sys.mem.systemFreeMB %> MB</div></div>
+  </div>
+  <div class="glass p-6">
+    <h2 class="font-semibold mb-3">Runtime</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+      <div><div class="text-slate-400 text-xs">Node</div><%= sys.node %></div>
+      <div><div class="text-slate-400 text-xs">Platform</div><%= sys.platform %></div>
+      <div><div class="text-slate-400 text-xs">Load avg</div><%= sys.loadavg.map(n => n.toFixed(2)).join(' / ') %></div>
+      <div><div class="text-slate-400 text-xs">DB state</div><%= db.state === 1 ? 'connected' : 'disconnected' %></div>
+    </div>
+  </div>
+</div>

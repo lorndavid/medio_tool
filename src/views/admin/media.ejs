@@ -1,0 +1,31 @@
+<div class="space-y-5 fade-in">
+  <h1 class="text-2xl font-semibold tracking-tight">Media activity</h1>
+  <div class="glass overflow-hidden">
+    <table class="table">
+      <thead><tr><th>Time</th><th>User</th><th>Platform</th><th>Title</th><th>Status</th><th>Size</th></tr></thead>
+      <tbody>
+        <% items.forEach(m => { %>
+          <tr>
+            <td class="text-xs text-slate-400"><%= new Date(m.createdAt).toLocaleString() %></td>
+            <td><%= m.telegramId %></td>
+            <td><span class="badge badge-info"><%= m.platform %></span></td>
+            <td class="truncate max-w-[280px]"><%= m.title || '—' %></td>
+            <td>
+              <% if (m.status === 'success') { %><span class="badge badge-good">success</span>
+              <% } else if (m.status === 'failed') { %><span class="badge badge-bad">failed</span>
+              <% } else { %><span class="badge badge-warn"><%= m.status %></span><% } %>
+            </td>
+            <td><%= m.sizeMB ? m.sizeMB + ' MB' : '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <% if (totalPages > 1) { %>
+    <div class="flex items-center justify-center gap-2 text-sm">
+      <% for (let i = 1; i <= Math.min(totalPages, 12); i++) { %>
+        <a class="px-3 py-1.5 rounded-lg <%= i === currentPage ? 'bg-sky-500/20 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10' %>" href="?page=<%= i %>"><%= i %></a>
+      <% } %>
+    </div>
+  <% } %>
+</div>

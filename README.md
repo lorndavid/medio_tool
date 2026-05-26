@@ -1,46 +1,178 @@
-# 🚀 Node.js TikTok Downloader Bot & Dashboard
+# MediaFlow Bot
 
-A high-performance **Telegram Bot** that downloads TikTok videos **without watermarks**.  
-It features a **real-time web dashboard**, handles **large files via streaming**, and includes a **Cyberpunk-style UI**.
+> Production-grade Telegram media assistant + glassmorphism admin dashboard.
+> Multilingual (English · Khmer · Polish · Korean), optimized for **Oracle Cloud Free Tier** and Cambodian mobile networks.
 
-![Project Status](https://img.shields.io/badge/Status-Active-success)
-![Node](https://img.shields.io/badge/Node.js-v18%2B-green)
-![License](https://img.shields.io/badge/License-MIT-blue)
-
----
-
-## ✨ Features
-
-- **🎥 No Watermark** – Downloads high-quality TikTok videos
-- **⚡ Real-Time Dashboard** – Live stats using Socket.io
-- **🚀 Smart Large File Handling**
-  - Files **< 50MB** → Sent directly to Telegram
-  - Files **> 50MB** → Generates a streaming download link
-- **⏳ Progress Animation** – Simulated progress (1% → 100%) in Telegram
-- **🧹 Auto-Cleanup** – Temporary links deleted after 5 minutes
-- **📱 Responsive UI** – Works on mobile, tablet, and desktop
+![status](https://img.shields.io/badge/status-production--ready-emerald)
+![node](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![license](https://img.shields.io/badge/license-MIT-blue)
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ What it does
 
-- **Backend:** Node.js, Express.js
-- **Bot API:** node-telegram-bot-api
-- **Real-time:** Socket.io
-- **Frontend:** EJS, TailwindCSS (CDN)
-- **HTTP Client:** Axios (HTTPS optimized)
+MediaFlow Bot helps users handle media links on Telegram:
 
----
+- 🎵 **TikTok** — HD videos with smart size fallback
+- 📸 **Instagram** — Reels metadata (pluggable provider)
+- 📘 **Facebook** — public videos & Reels metadata (pluggable)
+- ▶️ **YouTube** — title, thumbnail, author metadata (audio extraction is an opt-in plugin)
+- 🔗 URL conversion + link validation
+- 🖼 Thumbnail preview
+- 🧵 Batch processing via queue
+- 🔌 Plugin architecture for new platforms
 
-## 📂 Project Structure
+The bot runs alongside a beautiful admin dashboard at `/admin` for ops, analytics, broadcasts, and support.
 
-```text
-├── bot.js            # Telegram Bot logic
-├── downloader.js     # TikTok extractor & size checker
-├── server.js         # Express server & Socket.io
-├── views/
-│   └── dashboard.ejs # Real-time dashboard
-├── public/           # Static assets (optional)
-├── .env              # Environment variables
-├── package.json
-└── package-lock.json
+## 🧱 Architecture
+
+```
+┌─────────────────────────┐         ┌──────────────────────┐
+│  Telegram users         │ ◀─────▶ │  bot/index.js        │
+└─────────────────────────┘         │   ↳ handlers, i18n   │
+                                    └──────────┬───────────┘
+                                               │ enqueue
+                                               ▼
+┌─────────────────────────┐         ┌──────────────────────┐
+│  Admin (web)  /admin    │ ◀─────▶ │  Express app + EJS   │
+└─────────────────────────┘         │   auth, csrf, rate   │
+                                    └──────────┬───────────┘
+                                               │
+                                               ▼
+                                    ┌──────────────────────┐
+                                    │  Queue (inline or    │
+                                    │  BullMQ + Redis)     │
+                                    └──────────┬───────────┘
+                                               │
+                                               ▼
+                                    ┌──────────────────────┐
+                                    │  Downloaders         │
+                                    │  TikTok / IG / FB /  │
+                                    │  YouTube (pluggable) │
+                                    └──────────┬───────────┘
+                                               │
+                                               ▼
+                                    ┌──────────────────────┐
+                                    │  MongoDB Atlas       │
+                                    │  Users, Media,       │
+                                    │  Analytics, Tickets… │
+                                    └──────────────────────┘
+```
+
+## 📁 Folder structure
+
+```
+mediaflow/
+├─ ecosystem.config.js          # PM2 process file
+├─ deploy/
+│  ├─ nginx.conf                # Nginx reverse proxy
+│  └─ ORACLE_DEPLOY.md          # Step-by-step Oracle Cloud guide
+├─ public/                      # Static assets served by Express
+│  ├─ css/admin.css
+│  └─ js/admin.js
+├─ logs/                        # Rotating logs (gitignored)
+├─ uploads/                     # Temp media (gitignored)
+├─ src/
+│  ├─ server.js                 # Bootstrap entrypoint
+│  ├─ app.js                    # Express app factory
+│  ├─ config/
+│  │  ├─ env.js                 # Validated env loader (Joi)
+│  │  ├─ db.js                  # Mongoose connector
+│  │  └─ redis.js               # Optional Redis (BullMQ)
+│  ├─ bot/
+│  │  ├─ index.js               # Telegram bot factory
+│  │  ├─ handlers.js            # Command + message handlers
+│  │  └─ keyboards.js           # Inline keyboards
+│  ├─ controllers/              # Express controllers
+│  ├─ routes/                   # admin.js, api.js
+│  ├─ middleware/               # auth, errorHandler
+│  ├─ models/                   # Mongoose schemas
+│  ├─ services/                 # i18n, userService, mediaProcessor, downloaders/
+│  ├─ queues/                   # Queue abstraction + worker
+│  ├─ locales/                  # en, km, pl, ko JSON dictionaries
+│  ├─ scripts/seedAdmin.js      # First-admin bootstrap
+│  └─ views/admin/              # EJS dashboard pages
+├─ .env.example
+├─ package.json
+└─ README.md
+```
+
+## 🚀 Quick start (local)
+
+Prereqs: Node.js 18+, MongoDB Atlas connection string, a Telegram bot token from [@BotFather](https://t.me/BotFather).
+
+```bash
+# 1. Install
+npm install
+
+# 2. Configure
+cp .env.example .env
+# Fill in TELEGRAM_TOKEN, MONGO_URI, JWT_SECRET, COOKIE_SECRET
+
+# 3. Bootstrap admin
+npm run seed:admin
+
+# 4. Start dev server
+npm run dev
+```
+
+- Bot: send `/start` to your bot in Telegram
+- Dashboard: http://localhost:3000/admin/login
+
+## 🌐 Internationalization
+
+Translation files live in `src/locales/{en,km,pl,ko}.json`. The bot picks the user's saved `languageCode` (default = Telegram's `language_code`, fallback `en`). Users can change it in `/language` or via the inline menu.
+
+## ⚙️ Configuration reference
+
+See `.env.example` for the full, validated list. Key flags:
+
+| Variable | Default | What it does |
+|---|---|---|
+| `REDIS_ENABLED` | `false` | When true, BullMQ-backed queue is used |
+| `TELEGRAM_WEBHOOK_DOMAIN` | empty | Empty = polling (dev). Set to HTTPS domain for webhook (prod). |
+| `RATE_LIMIT_MAX` | `120` | API rate limit per window |
+
+## 📊 Admin dashboard
+
+Pages: Overview · Users · Analytics · Media · Logs · Languages · Settings · Broadcast · Support · API · Themes · Performance.
+- JWT in **HttpOnly** cookie
+- CSRF for all admin POSTs (csurf)
+- Helmet, compression, rate-limited
+- CSV export, search, pagination
+- Charts via Chart.js
+
+## 🛰 Production deploy (Oracle Cloud)
+
+See [`deploy/ORACLE_DEPLOY.md`](deploy/ORACLE_DEPLOY.md) for the complete walkthrough (Ubuntu setup → Node → PM2 → Nginx → Certbot → webhook).
+
+```bash
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup
+```
+
+## 🔒 Security
+
+- Helmet + CSP (script/style allowlist for Tailwind CDN + Chart.js)
+- HttpOnly + Secure cookies (Secure auto-on in production)
+- bcrypt password hashing
+- CSRF on admin forms
+- Per-user in-memory rate limiter for bot
+- Express-level rate limit on `/api/*`
+- Joi env validation; fail-fast on misconfig
+- All secrets via `.env` (never committed)
+
+## 🧪 Health & ops
+
+- `GET /healthz` → `{ ok: true, ts }`
+- Logs in `logs/` (rotated daily, 14d app / 30d errors)
+- `pm2 monit`, `pm2 logs`
+
+## 🛠 Extending downloaders
+
+Each downloader is a tiny module under `src/services/downloaders/<platform>.js` exporting `{ fetch(url, opts), platform }`. Register it in `src/services/downloaders/index.js`. Plug your own provider into Instagram/Facebook/YouTube modules to enable real downloads.
+
+## 📜 License
+
+MIT. Respect each platform's terms of service. Do not enable downloads where prohibited by law or policy.

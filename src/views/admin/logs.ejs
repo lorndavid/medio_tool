@@ -1,0 +1,26 @@
+<div class="space-y-5 fade-in">
+  <h1 class="text-2xl font-semibold tracking-tight">System logs</h1>
+  <p class="text-slate-400 text-sm">Last 200 records from the database log store. File logs are in <code class="text-slate-300">/logs</code>.</p>
+  <div class="glass overflow-hidden">
+    <table class="table">
+      <thead><tr><th>Time</th><th>Level</th><th>Source</th><th>Message</th></tr></thead>
+      <tbody>
+        <% if (!items.length) { %>
+          <tr><td colspan="4" class="text-center text-slate-500 py-8">No DB log entries yet.</td></tr>
+        <% } %>
+        <% items.forEach(l => { %>
+          <tr>
+            <td class="text-xs text-slate-400"><%= new Date(l.createdAt).toLocaleString() %></td>
+            <td>
+              <% if (l.level === 'error') { %><span class="badge badge-bad">error</span>
+              <% } else if (l.level === 'warn') { %><span class="badge badge-warn">warn</span>
+              <% } else { %><span class="badge badge-info">info</span><% } %>
+            </td>
+            <td class="text-slate-400"><%= l.source || '—' %></td>
+            <td><%= l.message %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

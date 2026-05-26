@@ -1,0 +1,72 @@
+<div class="space-y-6 fade-in">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Overview</h1>
+      <p class="text-slate-400 text-sm">Realtime snapshot of MediaFlow Bot</p>
+    </div>
+    <div class="hidden md:flex items-center gap-2 text-xs text-slate-400">
+      <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Online · uptime <%= sys.uptime %>s
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="kpi kpi-accent"><div class="kpi-label">Total users</div><div class="kpi-value"><%= stats.totalUsers.toLocaleString() %></div></div>
+    <div class="kpi"><div class="kpi-label">Active 24h</div><div class="kpi-value"><%= stats.dailyUsers.toLocaleString() %></div></div>
+    <div class="kpi"><div class="kpi-label">Downloads</div><div class="kpi-value"><%= stats.downloads.toLocaleString() %></div></div>
+    <div class="kpi"><div class="kpi-label">Daily downloads</div><div class="kpi-value"><%= stats.dailyDownloads.toLocaleString() %></div></div>
+    <div class="kpi"><div class="kpi-label">Open tickets</div><div class="kpi-value"><%= stats.openTickets %></div></div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <div class="glass p-5 lg:col-span-2">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-semibold">Downloads — last 7 days</h2>
+        <span class="badge badge-info">Successful</span>
+      </div>
+      <canvas data-chart-line height="220"
+        data-labels='<%- JSON.stringify(chart.labels) %>'
+        data-values='<%- JSON.stringify(chart.values) %>'></canvas>
+    </div>
+    <div class="glass p-5">
+      <h2 class="font-semibold mb-3">Top languages</h2>
+      <canvas data-chart-doughnut height="220"
+        data-labels='<%- JSON.stringify(topLang.map(x => x._id || "?")) %>'
+        data-values='<%- JSON.stringify(topLang.map(x => x.count)) %>'></canvas>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <div class="glass p-5 lg:col-span-2">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-semibold">Latest users</h2>
+        <a href="/admin/users" class="text-xs text-sky-400 hover:underline">View all →</a>
+      </div>
+      <table class="table">
+        <thead><tr><th>User</th><th>Lang</th><th>Downloads</th><th>Joined</th></tr></thead>
+        <tbody>
+          <% latestUsers.forEach(u => { %>
+            <tr>
+              <td>
+                <div class="font-medium"><%= u.firstName || ('user_' + u.telegramId) %></div>
+                <div class="text-xs text-slate-500">@<%= u.username || u.telegramId %></div>
+              </td>
+              <td><span class="badge badge-info"><%= u.languageCode || 'en' %></span></td>
+              <td><%= u.downloads || 0 %></td>
+              <td class="text-slate-400 text-xs"><%= new Date(u.createdAt).toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <div class="glass p-5">
+      <h2 class="font-semibold mb-3">System</h2>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between"><span class="text-slate-400">RSS</span><span><%= sys.mem.rssMB %> MB</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Heap</span><span><%= sys.mem.heapUsedMB %> / <%= sys.mem.heapTotalMB %> MB</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Free RAM</span><span><%= sys.mem.systemFreeMB %> MB</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Total RAM</span><span><%= sys.mem.systemTotalMB %> MB</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Load avg</span><span><%= sys.loadavg.map(n => n.toFixed(2)).join(' / ') %></span></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="space-y-5 fade-in">
+  <h1 class="text-2xl font-semibold tracking-tight">API settings</h1>
+  <div class="glass p-6 space-y-3">
+    <p class="text-sm text-slate-300">All keys are managed through environment variables for safety.</p>
+    <ul class="text-sm text-slate-300 list-disc pl-5 space-y-1">
+      <li><code>TELEGRAM_TOKEN</code> — bot token from @BotFather</li>
+      <li><code>TIKWM_API</code> — TikTok metadata endpoint</li>
+      <li><code>MONGO_URI</code> — MongoDB Atlas SRV string</li>
+      <li><code>REDIS_*</code> — optional Redis for BullMQ</li>
+    </ul>
+    <p class="text-xs text-slate-500">Edit <code>.env</code> on the server and restart the process: <code>pm2 restart mediaflow</code>.</p>
+  </div>
+</div>

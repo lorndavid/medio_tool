@@ -1,0 +1,28 @@
+<div class="space-y-5 fade-in">
+  <h1 class="text-2xl font-semibold tracking-tight">Support tickets</h1>
+  <div class="glass overflow-hidden">
+    <table class="table">
+      <thead><tr><th>Ticket</th><th>User</th><th>Status</th><th>Updated</th></tr></thead>
+      <tbody>
+        <% if (!items.length) { %>
+          <tr><td colspan="4" class="text-center py-8 text-slate-500">No tickets yet.</td></tr>
+        <% } %>
+        <% items.forEach(t => { %>
+          <tr>
+            <td>
+              <div class="font-medium"><%= t.subject %></div>
+              <div class="text-xs text-slate-500"><%= t.messages?.length || 0 %> message(s)</div>
+            </td>
+            <td><%= t.telegramId %></td>
+            <td>
+              <% if (t.status === 'open') { %><span class="badge badge-info"><%= t.status %></span>
+              <% } else if (t.status === 'resolved' || t.status === 'closed') { %><span class="badge badge-good"><%= t.status %></span>
+              <% } else { %><span class="badge badge-warn"><%= t.status %></span><% } %>
+            </td>
+            <td class="text-xs text-slate-400"><%= new Date(t.updatedAt).toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

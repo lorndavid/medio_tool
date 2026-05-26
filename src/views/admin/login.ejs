@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediaFlow · Login</title>
+  <link rel="stylesheet" href="/css/tailwind.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body class="bg-slate-950 text-slate-100 font-[Inter] min-h-screen relative overflow-hidden">
+  <div class="bg-blob blob-a"></div>
+  <div class="bg-blob blob-b"></div>
+  <div class="relative min-h-screen grid place-items-center p-6">
+    <div class="glass-strong w-full max-w-md p-8 fade-in">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-400 to-indigo-600 grid place-items-center shadow-xl">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+        </div>
+        <div>
+          <div class="text-xl font-semibold tracking-tight">MediaFlow Bot</div>
+          <div class="text-xs text-slate-400">Admin Console · Sign in to continue</div>
+        </div>
+      </div>
+      <% if (error) { %>
+        <div class="mb-4 text-sm rounded-lg px-3 py-2 bg-rose-500/10 border border-rose-500/30 text-rose-200"><%= error %></div>
+      <% } %>
+      <form method="post" action="/admin/login" class="space-y-4">
+        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>" />
+        <div>
+          <label class="label">Email</label>
+          <input class="input" type="email" name="email" required autofocus />
+        </div>
+        <div>
+          <label class="label">Password</label>
+          <input class="input" type="password" name="password" required />
+        </div>
+        <button class="btn w-full" type="submit">Sign in</button>
+      </form>
+      <p class="text-xs text-slate-500 mt-6 text-center">Run <code class="text-slate-300">npm run seed:admin</code> to bootstrap the first admin.</p>
+    </div>
+  </div>
+</body>
+</html>

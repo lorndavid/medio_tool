@@ -1,0 +1,61 @@
+<div class="space-y-5 fade-in">
+  <div class="flex items-center justify-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Users</h1>
+      <p class="text-slate-400 text-sm"><%= total.toLocaleString() %> total</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <form method="get" class="flex items-center gap-2">
+        <input class="input" name="q" placeholder="Search name, username or telegramId" value="<%= q %>" />
+        <button class="btn">Search</button>
+      </form>
+      <a class="btn-outline" href="/admin/users/export.csv">Export CSV</a>
+    </div>
+  </div>
+
+  <div class="glass overflow-hidden">
+    <table class="table">
+      <thead><tr><th>User</th><th>Lang</th><th>Downloads</th><th>Status</th><th>Joined</th><th></th></tr></thead>
+      <tbody>
+        <% items.forEach(u => { %>
+          <tr>
+            <td>
+              <div class="font-medium"><%= u.firstName || '—' %> <%= u.lastName || '' %></div>
+              <div class="text-xs text-slate-500">@<%= u.username || u.telegramId %></div>
+            </td>
+            <td><span class="badge badge-info"><%= u.languageCode || 'en' %></span></td>
+            <td><%= u.downloads || 0 %></td>
+            <td>
+              <% if (u.isBanned) { %><span class="badge badge-bad">Banned</span>
+              <% } else if (u.isMuted) { %><span class="badge badge-warn">Muted</span>
+              <% } else { %><span class="badge badge-good">Active</span><% } %>
+            </td>
+            <td class="text-slate-400 text-xs"><%= new Date(u.createdAt).toLocaleDateString() %></td>
+            <td class="text-right">
+              <% if (u.isBanned) { %>
+                <form method="post" action="/admin/users/<%= u._id %>/unban" class="inline">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                  <button class="btn-outline">Unban</button>
+                </form>
+              <% } else { %>
+                <form method="post" action="/admin/users/<%= u._id %>/ban" class="inline" onsubmit="return confirm('Ban this user?')">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                  <button class="btn-outline">Ban</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (totalPages > 1) { %>
+    <div class="flex items-center justify-center gap-2 text-sm">
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a class="px-3 py-1.5 rounded-lg <%= i === currentPage ? 'bg-sky-500/20 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10' %>"
+           href="?page=<%= i %><%= q ? '&q=' + encodeURIComponent(q) : '' %>"><%= i %></a>
+      <% } %>
+    </div>
+  <% } %>
+</div>

@@ -1,0 +1,55 @@
+<div class="space-y-6 fade-in">
+  <h1 class="text-2xl font-semibold tracking-tight">Broadcast manager</h1>
+
+  <form method="post" action="/admin/broadcast" class="glass p-6 space-y-4 max-w-3xl">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <div>
+      <label class="label">Title (internal)</label>
+      <input class="input" name="title" placeholder="Optional internal title" />
+    </div>
+    <div>
+      <label class="label">Message body (Markdown supported)</label>
+      <textarea class="textarea" name="body" rows="5" required></textarea>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="label">Audience</label>
+        <select class="select" name="audience">
+          <option value="all">All users</option>
+          <option value="active">Active (last 7d)</option>
+          <option value="language">By language</option>
+          <option value="country">By country</option>
+        </select>
+      </div>
+      <div>
+        <label class="label">Language code</label>
+        <input class="input" name="languageCode" placeholder="en | km | pl | ko" />
+      </div>
+      <div>
+        <label class="label">Country code</label>
+        <input class="input" name="countryCode" placeholder="KH" />
+      </div>
+    </div>
+    <div class="flex justify-end">
+      <button class="btn" onclick="return confirm('Send this broadcast?')">Send broadcast</button>
+    </div>
+  </form>
+
+  <div class="glass overflow-hidden">
+    <div class="px-5 py-3 border-b border-white/5"><h2 class="font-semibold">Recent broadcasts</h2></div>
+    <table class="table">
+      <thead><tr><th>Title</th><th>Audience</th><th>Stats</th><th>Status</th><th>Time</th></tr></thead>
+      <tbody>
+        <% items.forEach(b => { %>
+          <tr>
+            <td><%= b.title || '(no title)' %></td>
+            <td><span class="badge badge-info"><%= b.audience %></span></td>
+            <td class="text-xs text-slate-400">✅ <%= b.stats?.delivered || 0 %> · ❌ <%= b.stats?.failed || 0 %> · Σ <%= b.stats?.total || 0 %></td>
+            <td><span class="badge <%= b.status === 'done' ? 'badge-good' : b.status === 'failed' ? 'badge-bad' : 'badge-warn' %>"><%= b.status %></span></td>
+            <td class="text-xs text-slate-400"><%= new Date(b.createdAt).toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+{
+  "welcome": "👋 Cześć {{name}}!\n\nJestem *MediaFlow Bot* — szybki asystent mediów.\n\n*Co potrafię:*\n• 🎵 Filmy TikTok\n• 📸 Instagram Reels\n• 📘 Publiczne filmy i Reels z Facebooka\n• ▶️ Audio i metadane z YouTube\n\n_Wyślij link, aby zacząć._",
+  "help": "*Jak używać*\n\n1. Skopiuj link z TikTok / Instagram / Facebook / YouTube\n2. Wklej go tutaj\n3. Pobiorę co się da\n\nUżyj menu poniżej, aby uzyskać więcej opcji.",
+  "menu": {
+    "settings": "⚙️ Ustawienia",
+    "language": "🌐 Język",
+    "profile": "👤 Profil",
+    "history": "🗂 Historia",
+    "support": "💬 Wsparcie",
+    "premium": "💎 Premium",
+    "stats": "📊 Statystyki",
+    "about": "ℹ️ O bocie",
+    "back": "🔙 Wstecz"
+  },
+  "language": {
+    "prompt": "🌐 Wybierz swój język:",
+    "saved": "✅ Język zaktualizowany."
+  },
+  "profile": {
+    "title": "👤 *Twój profil*",
+    "name": "Imię",
+    "language": "Język",
+    "downloads": "Pobrania",
+    "joined": "Dołączył(a)",
+    "tier": "Poziom"
+  },
+  "settings": {
+    "title": "⚙️ *Ustawienia*",
+    "preferHD": "Preferuj HD",
+    "audioOnly": "Tylko audio (YouTube)",
+    "notify": "Powiadomienia",
+    "on": "Wł.",
+    "off": "Wył."
+  },
+  "history": {
+    "title": "🗂 *Ostatnie pobrania*",
+    "empty": "_Brak pobrań._"
+  },
+  "stats": {
+    "title": "📊 *Twoje statystyki*",
+    "downloads": "Łączne pobrania",
+    "successRate": "Skuteczność"
+  },
+  "about": "ℹ️ *MediaFlow Bot*\n\nSzybki, wieloplatformowy asystent mediów.\nWersja {{version}}.",
+  "premium": "💎 *Premium*\n\n• Priorytet w kolejce\n• Większe pliki\n• Więcej dziennych pobrań\n\nSkontaktuj się ze wsparciem, aby ulepszyć konto.",
+  "support": "💬 *Wsparcie*\n\nPotrzebujesz pomocy? Kliknij przycisk poniżej.",
+  "processing": "⏳ Przetwarzanie...",
+  "queued": "📥 W kolejce. Pozycja: {{pos}}",
+  "sending": "🚀 Wysyłanie...",
+  "success": "✅ Gotowe.",
+  "errors": {
+    "invalidLink": "❌ Nie rozpoznałem tego linku.",
+    "platformDisabled": "⚠️ Ta platforma jest tymczasowo wyłączona.",
+    "tooLarge": "⚠️ Plik jest za duży dla Telegramu.",
+    "rateLimit": "⏱ Za dużo żądań. Zwolnij na chwilę.",
+    "banned": "🚫 Nie możesz korzystać z tego bota.",
+    "maintenance": "🛠 Trwa konserwacja. Spróbuj później.",
+    "generic": "❌ Coś poszło nie tak. Spróbuj ponownie."
+  }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediaFlow Bot · Admin</title>
+  <link rel="stylesheet" href="/css/tailwind.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-[Inter] min-h-screen">
+  <div class="min-h-screen flex">
+    <% if (typeof page !== 'undefined') { %>
+      <%- include('partials/sidebar', { page: page, adminName: typeof adminName !== 'undefined' ? adminName : 'Admin' }) %>
+    <% } %>
+    <main class="flex-1 min-h-screen relative overflow-x-hidden">
+      <div class="bg-blob blob-a"></div>
+      <div class="bg-blob blob-b"></div>
+      <div class="relative z-10 p-6 md:p-8 max-w-7xl mx-auto">
+        <%- body %>
+      </div>
+    </main>
+  </div>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
